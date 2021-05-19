@@ -1,10 +1,5 @@
 let trackId = 0;
-identifyObj = {
-  name: "Peter Gibbons",
-  email: "peter@example.com",
-  plan: "premium",
-  logins: 5,
-};
+
 eventNames = [
   "Products Searched",
   "Product List Viewed",
@@ -20,6 +15,19 @@ eventNames = [
   "Checkout Step Completed",
   "Order Updated",
   "Order Completed",
+  "identify",
+  "group",
+  "Order Refunded",
+  "Coupon Entered",
+  "Coupon Applied",
+  "Coupon Denied",
+  "Coupon Removed",
+  "Product Added to Wishlist",
+  "Product Removed from Wishlist",
+  "Wishlist Product Added to Cart",
+  "Product Shared",
+  "Cart Viewed",
+  "Product Reviewed",
 ];
 trackObjects = [
   {
@@ -275,34 +283,144 @@ trackObjects = [
       },
     ],
   },
+  {
+    name: "Peter Gibbons",
+    email: "peter@example.com",
+    plan: "premium",
+    logins: 5,
+  },
+  {
+    name: "Initech",
+    industry: "Technology",
+    employees: 329,
+    plan: "enterprise",
+    "total billed": 830,
+  },
+  {
+    order_id: "50314b8e9bcf000000000000",
+    total: 30,
+    currency: "USD",
+    products: [
+      {
+        product_id: "507f1f77bcf86cd799439011",
+        sku: "45790-32",
+        name: "Monopoly: 3rd Edition",
+        price: 19,
+        quantity: 1,
+        category: "Games",
+        url: "https://www.example.com/product/path",
+        image_url: "https://www.example.com/product/path.jpg",
+      },
+      {
+        product_id: "505bd76785ebb509fc183733",
+        sku: "46493-32",
+        name: "Uno Card Game",
+        price: 3,
+        quantity: 2,
+        category: "Games",
+      },
+    ],
+  },
+  {
+    order_id: "50314b8e9bcf000000000000",
+    cart_id: "923923929jd29jd92dj9j93fj3",
+    coupon_id: "may_deals_2016",
+  },
+  {
+    order_id: "50314b8e9bcf000000000000",
+    cart_id: "923923929jd29jd92dj9j93fj3",
+    coupon_id: "may_deals_2016",
+    coupon_name: "May Deals 2016",
+    discount: 23.32,
+  },
+  {
+    order_id: "50314b8e9bcf000000000000",
+    cart_id: "923923929jd29jd92dj9j93fj3",
+    coupon: "may_deals_2016",
+    reason: "Coupon expired",
+  },
+  {
+    order_id: "50314b8e9bcf000000000000",
+    cart_id: "923923929jd29jd92dj9j93fj3",
+    coupon_id: "may_deals_2016",
+    coupon_name: "May Deals 2016",
+    discount: 23.32,
+  },
+  {
+    wishlist_id: "skdjsidjsdkdj29j",
+    wishlist_name: "Loved Games",
+    product_id: "507f1f77bcf86cd799439011",
+    sku: "G-32",
+    category: "Games",
+    name: "Monopoly: 3rd Edition",
+    brand: "Hasbro",
+    variant: "200 pieces",
+    price: 18.99,
+    quantity: 1,
+    coupon: "MAYDEALS",
+    position: 3,
+    url: "https://www.example.com/product/path",
+    image_url: "https://www.example.com/product/path.jpg",
+  },
+  {
+    wishlist_id: "skdjsidjsdkdj29j",
+    wishlist_name: "Loved Games",
+    cart_id: "99j2d92j9dj29dj29d2d",
+    product_id: "507f1f77bcf86cd799439011",
+    sku: "G-32",
+    category: "Games",
+    name: "Monopoly: 3rd Edition",
+    brand: "Hasbro",
+    variant: "200 pieces",
+    price: 18.99,
+    quantity: 1,
+    coupon: "MAYDEALS",
+    position: 3,
+    url: "https://www.example.com/product/path",
+    image_url: "https://www.example.com/product/path.jpg",
+  },
+  {
+    share_via: "email",
+    share_message: "Hey, check out this item",
+    recipient: "friend@example.com",
+    product_id: "507f1f77bcf86cd799439011",
+    sku: "G-32",
+    category: "Games",
+    name: "Monopoly: 3rd Edition",
+    brand: "Hasbro",
+    variant: "200 pieces",
+    price: 18.99,
+    url: "https://www.example.com/product/path",
+    image_url: "https://www.example.com/product/path.jpg",
+  },
+  {
+    share_via: "email",
+    share_message: "Hey, check out this item",
+    recipient: "friend@example.com",
+    cart_id: "d92jd29jd92jd29j92d92jd",
+    products: [
+      { product_id: "507f1f77bcf86cd799439011" },
+      { product_id: "505bd76785ebb509fc183733" },
+    ],
+  },
+  {
+    product_id: "507f1f77bcf86cd799439011",
+    review_id: "kdfjrj39fj39jf3",
+    review_body: "I love this product",
+    rating: "5",
+  },
 ];
 
-groupObj = {
-  name: "Initech",
-  industry: "Technology",
-  employees: 329,
-  plan: "enterprise",
-  "total billed": 830,
-};
+triggerEvent = () => {
+  for (let i = 0; i <= 50000; i++) {
+    const trackIndex = Math.floor(Math.random() * 27);
 
-track = () => {
-  if (trackId == 14) {
-    trackId = 0;
-  }
-  /*    analytics.track(eventNames[i],trackObjects[i]) */
-  const res = analytics.track(eventNames[trackId], trackObjects[trackId]);
-  if (trackId <= 14) {
-    trackId++;
+    if (eventNames[trackIndex] === "identify") {
+      analytics.identify("test", trackObjects[trackIndex]);
+    } else if (eventNames[trackIndex] === "group") {
+      analytics.group("test", trackObjects[trackIndex]);
+    } else {
+      analytics.track(eventNames[trackIndex], trackObjects[trackIndex]);
+    }
   }
 };
-
-identify = () => {
-  const res = analytics.identify("test", identifyObj);
-  console.log(res);
-};
-
-group = () => {
-  analytics.group("tester", groupObj);
-};
-
-screen = () => {};
